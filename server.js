@@ -6,10 +6,16 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: [
+  'http://localhost:8080', // local dev
+  'https://charging-frontend.vercel.app', // (or your deployed frontend later)
+  'https://charging-api.onrender.com' // allow self if needed
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+app.options('*', cors()); // handle preflight requests
+
 
 // Routes
 app.use('/api/chargers', require('./routes/chargers'));
